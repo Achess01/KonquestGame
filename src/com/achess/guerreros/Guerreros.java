@@ -10,7 +10,7 @@ public abstract class Guerreros {
     protected float valorAtaque;
     protected float porcentajePlaneta;
 
-    Guerreros(float porcentajePlaneta, int indexGuerrero){
+    public Guerreros(float porcentajePlaneta, int indexGuerrero){
         this.id = ++cantidadGuerreros;
         this.porcentajePlaneta = porcentajePlaneta;
         this.factorDeMuerte = FACTOR[indexGuerrero];

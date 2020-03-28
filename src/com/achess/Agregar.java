@@ -153,4 +153,9 @@ public interface Agregar {
             return newObjetos;
         }
     }
+
+    default int numerosAleatorios(int min, int max){
+        int aleatorio = (int)Math.floor(Math.random()*(max - min +1) + min);
+        return aleatorio;
+    }
 }

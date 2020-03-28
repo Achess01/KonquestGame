@@ -3,7 +3,7 @@ package com.achess.guerreros;
 public class Mole extends Guerreros{
 
 
-    Mole(float porcentajePlaneta, int indexGuerrero){
+    public Mole(float porcentajePlaneta, int indexGuerrero){
         super(porcentajePlaneta, indexGuerrero);
     }
 }
