@@ -20,7 +20,7 @@ public abstract class Constructores {
         this.planeta = planeta;
     }
 
-    public void fabricarNave(Planeta planeta){
+    public void fabricarNave(){
 
     }
 

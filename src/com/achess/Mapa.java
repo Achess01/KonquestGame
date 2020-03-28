@@ -11,17 +11,18 @@ public class Mapa implements Agregar{
     private int cantidadNeutrales;
     private Jugador jugadores[] = new Jugador[2];
 
-    public Mapa(int cantidadFilas, int cantidadColumnas, String j1, String j2) {
+    public Mapa(int cantidadFilas, int cantidadColumnas,int cantidadNeutrales, String j1, String j2) {
         this.id = ++cantidadMapas;
-        this.cantidadFilas = cantidadFilas;
-        this.cantidadColumnas = cantidadColumnas;
+        this.cantidadFilas = Math.abs(cantidadFilas);
+        this.cantidadColumnas = Math.abs(cantidadColumnas);
         j1.trim().toUpperCase();
         j2.trim().toUpperCase();
         if(j1.equals(j2)){
-            j2 = j2.concat("02");
+            j2 = "02".concat(j2);
         }
         jugadores[0] = new Jugador(this, j1);
-        jugadores[0] = new Jugador(this, j1);
+        jugadores[1] = new Jugador(this, j2);
+        campoJuego = new Planeta[cantidadFilas][cantidadColumnas];
     }
 
     public void generarPlanetas(){

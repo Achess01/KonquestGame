@@ -14,7 +14,6 @@ public abstract class Planeta implements Agregar {
     protected int posY;
     protected float porcentajeMuerte;
     protected int cantidadDinero;
-    protected int cantidadGuerreros[] = new int[5];
     protected Constructores constructores[][] = new Constructores[4][0];
     protected Naves navesDisponibles[][] = new Naves[4][0];
     protected Naves navesOcupadas[][] = new Naves[4][0];
@@ -136,10 +135,6 @@ public abstract class Planeta implements Agregar {
 
     public Jugador getPropietario() {
         return propietario;
-    }
-
-    public int[] getCantidadGuerreros() {
-        return cantidadGuerreros;
     }
 
     public Constructores[][] getConstructores() {
