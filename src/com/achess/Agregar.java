@@ -6,6 +6,7 @@ import com.achess.guerreros.Guerreros;
 import com.achess.naves.Naves;
 import com.achess.planetas.Planeta;
 
+import java.util.Scanner;
 
 
 public interface Agregar {
@@ -157,5 +158,20 @@ public interface Agregar {
     default int numerosAleatorios(int min, int max){
         int aleatorio = (int)Math.floor(Math.random()*(max - min +1) + min);
         return aleatorio;
+    }
+
+    default int pedirDato(String mensaje){
+        int numero;
+        while (true) {
+            try {
+                System.out.print(mensaje);
+                Scanner sc = new Scanner(System.in);
+                numero = Integer.parseInt(sc.nextLine());
+                break;
+            } catch (Exception ex) {
+                System.out.println("Valor no válido");
+            }
+        }
+        return numero;
     }
 }
