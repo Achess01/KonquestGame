@@ -34,8 +34,37 @@ public abstract class Planeta implements Agregar {
         generarGuerrerosTurnos();
     }
 
-    public void batalla(){
+    public void batalla(Planeta enemigo){
+        int iterador = 0;
+        int bE, bG;
+        int indexGuerrero = 0;
+        while (true){
+            if(!(guerreros[indexGuerrero].length > 0)){
+                indexGuerrero++;
+                if(indexGuerrero > 4){
+                    //Pierde
+                    break;
+                }
+                continue;
+            }
+            Guerreros g = guerreros[indexGuerrero][0];
+            Guerreros e = enemigos[0];
+            float ataqueE = e.getValorAtaque();
+            float ataqueG = g.getValorAtaque();
+            if(ataqueE > ataqueG){
+                agregarGuerreros(g, g.getIndexGuerrero(), false);
+                e.setCantidadBatallas(e.getCantidadBatallas()+1);
+            }
+            else if(ataqueE < ataqueG){
+                quitarEnemigos(e);
+                g.setCantidadBatallas(g.getCantidadBatallas()+1);
+            }
 
+
+            bE = e.getCantidadBatallas();
+            bG = g.getCantidadBatallas();
+
+        }
     }
     public void generarGuerrerosTurnos(){
         int cantidadGuerrerosGenerados = numerosAleatorios(minG, maxG);
@@ -111,6 +140,14 @@ public abstract class Planeta implements Agregar {
      */
     public void agregarGuerreros(Guerreros guerrero, int indexGuerrero, boolean validar){
         guerreros[indexGuerrero] = agregarElementos(guerrero, guerreros[indexGuerrero], validar);
+    }
+
+    public void quitarEnemigos(Guerreros guerrero){
+        enemigos = agregarElementos(guerrero, enemigos, false);
+    }
+
+    public void setEnemigos(Guerreros[] enemigos) {
+        this.enemigos = enemigos;
     }
 
     public String getNombre() {

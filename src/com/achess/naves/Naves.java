@@ -1,6 +1,6 @@
 package com.achess.naves;
 import com.achess.Jugador;
-import com.achess.guerreros.Guerreros;
+import com.achess.guerreros.*;
 import com.achess.planetas.Planeta;
 
 public abstract class Naves {
@@ -9,6 +9,7 @@ public abstract class Naves {
     public static final float VELOCIDAD[] = {1f, 1.25f, 1.50f, 1.75f};
     public static final String NOMBRE[] = {"Naboo N-1", "X-Wing", "Millenial Falcon", "Star Destroyer"};
     protected static int cantidadNaves = 0;
+    protected int indexNave;
     protected String nombre;
     protected int id;
     protected Guerreros guerreros[];
@@ -25,6 +26,7 @@ public abstract class Naves {
         this.velocidad = VELOCIDAD[indexNave];
         this.nombre = NOMBRE[indexNave];
         this.planetaOrigen = planetaOrigen;
+        this.indexNave = indexNave;
     }
 
     public Planeta getPlanetaOrigen() {
@@ -53,11 +55,20 @@ public abstract class Naves {
         }
     }
 
-    public Guerreros[] batalla(Planeta planetaDestino){
+    public void batalla(Planeta planetaDestino){
         if(planetaDestino.getPropietario().equals(planetaOrigen.getPropietario())){
-
+            for (Guerreros g: this.guerreros){
+                planetaDestino.agregarGuerreros(g, g.getIndexGuerrero(), true);
+            }
         }
-        return guerreros;
+        else{
+                planetaDestino.setEnemigos(guerreros);
+                guerreros = new Guerreros[0];
+                planetaDestino.batalla(this.planetaOrigen);
+                planetaOrigen.agregarNavesOcupadas(this, this.indexNave, false);
+                planetaOrigen.agregarNaves(this, this.indexNave, true);
+        }
+
     }
 
 }

@@ -92,9 +92,10 @@ public class Mapa implements Agregar{
 
     public void setCantidadNeutrales(int cantidadNeutrales) {
         while(true){
-            if(cantidadNeutrales > (this.cantidadFilas*this.cantidadColumnas*0.60)){
+            if(cantidadNeutrales > (this.cantidadFilas*this.cantidadColumnas*0.60) || cantidadNeutrales < 1){
                 System.out.println("Error:\n" +
-                        "Planetas neutrales mayores al 60% de las casillas");
+                        "Planetas neutrales no pueden ser mayores al 60% de las casillas" +
+                        "\nAl menos debe de haber un planeta neutral");
                 cantidadNeutrales = pedirDato("Cantidad neutrales\n ==> ");
             }
             else{
