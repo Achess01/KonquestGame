@@ -11,6 +11,14 @@ public class Agua extends Planeta {
         minG = 12;
         maxD = 120;
         minD = 60;
+        tipo = "Agua";
+    }
+
+    @Override
+    public void guerrerosIniciales(int cantidad){
+        for (int i = 0; i < cantidad ; i++) {
+            agregarGuerreros(new Nemo(porcentajeMuerte, INDEX_GUERRERO), INDEX_GUERRERO, true);
+        }
     }
 
     @Override

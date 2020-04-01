@@ -7,13 +7,15 @@ import com.achess.guerreros.*;
 import com.achess.naves.*;
 
 import java.lang.reflect.Constructor;
+import java.util.Arrays;
 
 public abstract class Planeta implements Agregar {
+    protected String tipo;
     protected String nombre;
     protected int posX;
     protected int posY;
     protected float porcentajeMuerte;
-    protected int cantidadDinero;
+    protected int cantidadDineroInicial;
     protected Constructores constructores[][] = new Constructores[4][0];
     protected Naves navesDisponibles[][] = new Naves[4][0];
     protected Naves navesOcupadas[][] = new Naves[4][0];
@@ -29,20 +31,48 @@ public abstract class Planeta implements Agregar {
         this.nombre = nombre;
         this.posX = posX;
         this.posY = posY;
-        agregarNaves(new NabooN1(0, this), 0, true);
         this.porcentajeMuerte = numerosAleatorios(100, 9999)/1000;
-        generarGuerrerosTurnos();
     }
 
+    public void constructoresIniciales(int cantidad){
+        for (int i = 0; i < cantidad; i++) {
+            agregarConstructores(new Obrero(0, this), 0, true);
+        }
+    }
+
+    public void navesIniciales(int cantidad){
+        for (int i = 0; i < cantidad ; i++) {
+            agregarNaves(new NabooN1(0, this), 0, true);
+        }
+    }
+
+    public abstract void guerrerosIniciales(int cantidad);
+
     public void batalla(Planeta enemigo){
-        int iterador = 0;
         int bE, bG;
         int indexGuerrero = 0;
+        System.out.println(this + " VS. \n" + enemigo);
         while (true){
+            if(!(enemigos.length > 0)){
+                System.out.println("::El planeta " + this.nombre + "de" +propietario.getNombre() +"ha sido defendido");
+                break;
+            }
             if(!(guerreros[indexGuerrero].length > 0)){
                 indexGuerrero++;
                 if(indexGuerrero > 4){
-                    //Pierde
+                    System.out.println("::El planeta " + this.nombre + "de" +propietario.getNombre() +"ha caído");
+
+                    if(propietario.getNombre().equals("NEUTRO")){
+                        enemigo.getPropietario().setDinero(enemigo.getPropietario().getDinero() + cantidadDineroInicial);
+                    }
+                    enemigo.propietario.agregarPlanetas(this, true);
+                    this.propietario.agregarPlanetas(this,false);
+                    this.propietario = enemigo.propietario;
+                    this.propietario.agregarPlanetas(this, true);
+                    for(Guerreros gue: enemigos){
+                        agregarGuerreros(gue, gue.getIndexGuerrero(), true);
+                    }
+                    enemigos = new Guerreros[0];
                     break;
                 }
                 continue;
@@ -52,24 +82,44 @@ public abstract class Planeta implements Agregar {
             float ataqueE = e.getValorAtaque();
             float ataqueG = g.getValorAtaque();
             if(ataqueE > ataqueG){
+                //Gana enemigo, elimina guerrero
                 agregarGuerreros(g, g.getIndexGuerrero(), false);
                 e.setCantidadBatallas(e.getCantidadBatallas()+1);
             }
             else if(ataqueE < ataqueG){
+                //Gana guerrero, elimina enemigo
                 quitarEnemigos(e);
                 g.setCantidadBatallas(g.getCantidadBatallas()+1);
             }
-
-
+            else{
+                g.setCantidadBatallas(g.getCantidadBatallas()+1);
+                e.setCantidadBatallas(e.getCantidadBatallas()+1);
+            }
             bE = e.getCantidadBatallas();
             bG = g.getCantidadBatallas();
 
+            if(bE == 2){
+                quitarEnemigos(e);
+            }
+            if(bG == 2){
+                agregarGuerreros(g, g.getIndexGuerrero(), false);
+            }
         }
     }
+    //Turnos
     public void generarGuerrerosTurnos(){
         int cantidadGuerrerosGenerados = numerosAleatorios(minG, maxG);
         generarGuerreros(cantidadGuerrerosGenerados);
     }
+
+    private void generarDineroTurnos(){
+        int cantidadDineroGenerado = numerosAleatorios(minD, maxD);
+        if(propietario != null){
+            propietario.setDinero(propietario.getDinero() + cantidadDineroGenerado);
+        }
+    }
+
+    //
     protected abstract void generarGuerreros(int cantidad);
 
     /**
@@ -167,26 +217,44 @@ public abstract class Planeta implements Agregar {
     }
 
     public int getCantidadDinero() {
-        return cantidadDinero;
+        return cantidadDineroInicial;
     }
 
     public Jugador getPropietario() {
         return propietario;
     }
 
-    public Constructores[][] getConstructores() {
-        return constructores;
+    public Guerreros[][] getGuerreros() {
+        return guerreros;
     }
 
-    public Naves[][] getNavesDisponibles() {
-        return navesDisponibles;
+    public void setCantidadDineroInicial(int cantidadDinero) {
+        this.cantidadDineroInicial = cantidadDinero;
+        if(!propietario.getNombre().equals("NEUTRO")){
+            propietario.setDinero(propietario.getDinero() + cantidadDinero);
+        }
+    }
+
+    public void setPropietario(Jugador propietario) {
+        this.propietario = propietario;
     }
 
     public Naves[][] getNavesOcupadas() {
         return navesOcupadas;
     }
 
-    public Guerreros[][] getGuerreros() {
-        return guerreros;
+    @Override
+    public String toString() {
+        int cantidadGuerreros = 0;
+        for (Guerreros[] g: guerreros){
+            cantidadGuerreros += g.length;
+        }
+        return "Planeta{" +
+                "tipo='" + tipo + '\'' +
+                ", nombre='" + nombre + '\'' +
+                ", porcentajeMuerte=" + porcentajeMuerte +
+                ", guerreros=" + cantidadGuerreros +
+                ", propietario=" + propietario.getNombre() +
+                '}';
     }
 }

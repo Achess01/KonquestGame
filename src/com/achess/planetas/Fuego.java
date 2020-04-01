@@ -10,6 +10,13 @@ public class Fuego extends Planeta {
         minG = 10;
         maxD = 140;
         minD = 70;
+        tipo = "Fuego";
+    }
+    @Override
+    public void guerrerosIniciales(int cantidad){
+        for (int i = 0; i < cantidad ; i++) {
+            agregarGuerreros(new Magma(porcentajeMuerte, INDEX_GUERRERO), INDEX_GUERRERO, true);
+        }
     }
 
     @Override

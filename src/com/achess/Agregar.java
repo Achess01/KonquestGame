@@ -174,4 +174,15 @@ public interface Agregar {
         }
         return numero;
     }
+
+    default int validar(String mensaje, int min, int max){
+        int dato;
+        while(true){
+            dato = pedirDato(mensaje);
+            if(dato > min && dato < max){
+                break;
+            }
+        }
+        return dato;
+    }
 }

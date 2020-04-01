@@ -10,6 +10,14 @@ public class Organico extends Planeta {
         minG = 5;
         maxD = 160;
         minD = 80;
+        tipo = "Orgánico";
+    }
+
+    @Override
+    public void guerrerosIniciales(int cantidad){
+        for (int i = 0; i < cantidad ; i++) {
+            agregarGuerreros(new Groot(porcentajeMuerte, INDEX_GUERRERO), INDEX_GUERRERO, true);
+        }
     }
 
     @Override

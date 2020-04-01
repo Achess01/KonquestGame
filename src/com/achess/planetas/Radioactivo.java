@@ -10,6 +10,13 @@ public class Radioactivo extends Planeta {
         minG = 3;
         maxD = 180;
         minD = 90;
+        tipo = "Radioactivo";
+    }
+    @Override
+    public void guerrerosIniciales(int cantidad){
+        for (int i = 0; i < cantidad ; i++) {
+            agregarGuerreros(new FisionGuy(porcentajeMuerte, INDEX_GUERRERO), INDEX_GUERRERO, true);
+        }
     }
 
     @Override

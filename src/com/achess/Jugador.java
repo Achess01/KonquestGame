@@ -6,7 +6,7 @@ import com.achess.planetas.*;
 
 public class Jugador implements Agregar{
     private Mapa mapa;
-    private int dinero;
+    private int dinero = 0;
     private String nombre;
     private Planeta planetas[];
     private Cola cola[];
@@ -14,6 +14,10 @@ public class Jugador implements Agregar{
     public Jugador(Mapa mapa, String nombre) {
         this.mapa = mapa;
         this.nombre = nombre;
+    }
+
+    public Jugador(){
+        this.nombre = "NEUTRO";
     }
 
     /**
@@ -61,5 +65,8 @@ public class Jugador implements Agregar{
     public int getDinero() {
         return dinero;
     }
-    //Mandar a la flota es trabajo del planeta
+
+    public void setDinero(int dinero) {
+        this.dinero = dinero;
+    }
 }

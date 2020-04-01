@@ -11,6 +11,13 @@ public class Tierra extends Planeta{
         minG = 15;
         maxD = 100;
         minD = 50;
+        tipo = "Tierra";
+    }
+    @Override
+    public void guerrerosIniciales(int cantidad){
+        for (int i = 0; i < cantidad ; i++) {
+            agregarGuerreros(new Mole(porcentajeMuerte, INDEX_GUERRERO), INDEX_GUERRERO, true);
+        }
     }
 
     @Override
