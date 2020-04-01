@@ -114,7 +114,7 @@ public abstract class Planeta implements Agregar {
 
     private void generarDineroTurnos(){
         int cantidadDineroGenerado = numerosAleatorios(minD, maxD);
-        if(propietario != null){
+        if(!propietario.getNombre().equals("NEUTRO")){
             propietario.setDinero(propietario.getDinero() + cantidadDineroGenerado);
         }
     }

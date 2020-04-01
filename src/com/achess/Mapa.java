@@ -13,7 +13,7 @@ public class Mapa implements Agregar{
     private int cantidadFilas;
     private int cantidadColumnas;
     private int cantidadNeutrales;
-    private Jugador neutro = new Jugador();
+    public Jugador neutro = new Jugador();
     private Jugador jugadores[] = new Jugador[2];
 
     public Mapa(int cantidadFilas, int cantidadColumnas,int cantidadNeutrales, String j1, String j2) {
@@ -40,6 +40,17 @@ public class Mapa implements Agregar{
         System.out.println("::Jugador: " + jugadores[1].getNombre());
         planetaCustom(jugadores[1]);
 
+    }
+
+    public void planetasNeutrales(){
+        int cantidad = validar("::Cantidad de planetas neutros que desea editar\n ==>", 1, cantidadNeutrales);
+        for (int i = 0; i < cantidad ; i++) {
+            planetaCustom(neutro);
+        }
+        int restantes = cantidadNeutrales - cantidad;
+        for (int i = 0; i < restantes; i++) {
+            planetaDefecto();
+        }
     }
     public void planetaCustom(Jugador propietario){
         Scanner sc = new Scanner(System.in);

@@ -4,9 +4,32 @@ import java.util.Scanner;
 
 public class Juego implements Agregar{
     Mapa mapas[] = new Mapa[0];
+    int response;
     Juego(){
-
+        do {
+            System.out.println("::KONQUEST");
+            System.out.println("::Bienvenido");
+            System.out.println("1. Jugar");
+            System.out.println("2. Editar Mapas");
+            System.out.println("3. Crear mapas");
+            System.out.println("0. Salir");
+            response = pedirDato("==> ");
+            switch (response) {
+                case 1:
+                    juego();
+                    break;
+                case 2:
+                    editarMapas();
+                case 3:
+                    crearMapas();
+                    break;
+            }
+        }while(response != 0);
     }
+
+    private void juego() {
+    }
+
 
     private void crearMapas(){
         Scanner sc = new Scanner(System.in);
@@ -17,18 +40,42 @@ public class Juego implements Agregar{
         nombre = pedirNombre("::Nombre jugador 1(Max 10 caracteres)\n ==>");
         nombre2 = pedirNombre("::Nombre jugador 2(Max 10 caracteres)\n ==>");
         Mapa m = new Mapa(cantidadFilas, cantidadColumnas, cantidadNeutrales, nombre, nombre2);
+        m.planetasJugadores();
+        m.planetasNeutrales();
+        agregarElementos(m, mapas,true);
     }
 
     private void editarMapas(){
-        int i = 1;
-        for(Mapa m: mapas){
-            System.out.println(i +".\n"+ m);
-            i++;
+        if(mapas.length > 0) {
+
+
+            int i = 1;
+            for (Mapa m : mapas) {
+                System.out.println(i + ".\n" + m);
+                i++;
+            }
+            System.out.println();
+            int response;
+            do {
+                int index = validar("::Elija el número del mapa que desea editar\n ==>", 1, mapas.length);
+                System.out.println("1. Editar planetas de jugadores");
+                System.out.println("2. Editar planetas neutrales");
+                System.out.println("0. Salir");
+                response = pedirDato("==> ");
+                switch (response) {
+                    case 1:
+                        mapas[index].planetasJugadores();
+                        break;
+                    case 2:
+                        mapas[index].planetasNeutrales();
+                        break;
+
+                }
+            } while (response != 0);
         }
-        System.out.println();
-        int index = validar("::Elija el número del mapa que desea editar\n ==>", 1, mapas.length);
-        System.out.println("1. Editar planetas de jugadores");
-        System.out.println("2. Editar planetas neutrales");
+        else{
+            System.out.println("::Aun no hay mapas para editar, cree uno");
+        }
     }
     private String pedirNombre(String mensaje){
         Scanner sc = new Scanner(System.in);

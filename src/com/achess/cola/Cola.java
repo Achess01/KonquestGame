@@ -1,6 +1,16 @@
 package com.achess.cola;
 
-public class Cola {
-    public static int cantidadColas = 0;
+import com.achess.planetas.Planeta;
+
+public abstract class Cola {
+    protected static int cantidadColas = 0;
     protected int id;
+    protected int turnosNecesarios;
+
+    public Cola(int turnosNecesarios){
+        this.turnosNecesarios = turnosNecesarios;
+        this.id = ++cantidadColas;
+    }
+
+    public abstract void ejecutar(int turnoActual);
 }
