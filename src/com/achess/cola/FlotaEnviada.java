@@ -17,6 +17,7 @@ public class FlotaEnviada extends Cola{
         turnosNecesarios--;
         if(turnosNecesarios == 0){
             nave.batalla(destino);
+
         }
     }
 

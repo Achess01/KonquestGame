@@ -76,7 +76,7 @@ public interface Agregar {
      * @return el arreglo con un espacio más o uno menos.
      */
     default Planeta[] agregarElementos(Planeta obj, Planeta[] objetos, boolean validar){
-        if(validar) {
+       if(validar) {
             Planeta newObjetos[] = new Planeta[objetos.length + 1];
             newObjetos[0] = obj;
             for (int x = 1; x < newObjetos.length; x++) {
@@ -94,6 +94,8 @@ public interface Agregar {
                 }
                 newObjetos[x] = objetos[x];
             }
+
+
             return newObjetos;
         }
     }
@@ -175,11 +177,25 @@ public interface Agregar {
         return numero;
     }
 
+
     default int validar(String mensaje, int min, int max){
         int dato;
         while(true){
-            dato = pedirDato(mensaje);
-            if(dato > min && dato < max){
+            while (true) {
+                try {
+                    System.out.print(mensaje);
+                    Scanner sc = new Scanner(System.in);
+                    String valor = sc.nextLine();
+                    if(valor.isEmpty()){
+                        return max;
+                    }
+                    dato = Integer.parseInt(valor);
+                    break;
+                } catch (Exception ex) {
+                    System.out.println("Valor no válido");
+                }
+            }
+            if(dato >= min && dato <= max){
                 break;
             }
         }

@@ -13,4 +13,8 @@ public abstract class Cola {
     }
 
     public abstract void ejecutar();
+
+    public int getTurnosNecesarios() {
+        return turnosNecesarios;
+    }
 }

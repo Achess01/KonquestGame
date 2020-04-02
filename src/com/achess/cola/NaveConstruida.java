@@ -1,6 +1,7 @@
 package com.achess.cola;
 
 import com.achess.constructores.Constructores;
+import com.achess.naves.Naves;
 import com.achess.planetas.Planeta;
 
 public class NaveConstruida extends Cola{
@@ -19,5 +20,13 @@ public class NaveConstruida extends Cola{
             constructor.getPlaneta().agregarConstructoresOcupados(constructor, constructor.getIndexConstructor(), false);
             constructor.getPlaneta().agregarConstructores(constructor, constructor.getIndexConstructor(), true);
         }
+    }
+
+    @Override
+    public String toString() {
+        return "NaveConstruida{" +
+                "Nave= " + (Naves.NOMBRE[constructor.getIndexConstructor()]) +
+                "\nturnosNecesarios=" + turnosNecesarios +
+                '}';
     }
 }

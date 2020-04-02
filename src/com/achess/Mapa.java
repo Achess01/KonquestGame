@@ -9,7 +9,7 @@ public class Mapa implements Agregar{
     private static int nombrePlaneta;
     public static int cantidadMapas = 0;
     private int id;
-    private Planeta campoJuego[][];
+    private Planeta campoJuego[][] =new Planeta[0][0];
     private int cantidadFilas;
     private int cantidadColumnas;
     private int cantidadNeutrales;
@@ -35,6 +35,17 @@ public class Mapa implements Agregar{
         campoJuego = new Planeta[this.cantidadFilas][this.cantidadColumnas];
     }
 
+    public void turnos(){
+        for (int i = 0; i < cantidadFilas; i++) {
+            for (int j = 0; j <cantidadColumnas ; j++) {
+                Planeta p = campoJuego[i][j];
+                if(p != null){
+                    p.turnos();
+                }
+            }
+
+        }
+    }
     public void planetasJugadores(){
         Scanner sc = new Scanner(System.in);
         System.out.println("::Valores para los planetas de los jugadores");
@@ -46,7 +57,7 @@ public class Mapa implements Agregar{
     }
 
     public void planetasNeutrales(){
-        int cantidad = validar("::Cantidad de planetas neutros que desea editar\n ==>", 1, cantidadNeutrales);
+        int cantidad = validar("::Cantidad de planetas neutros que desea editar\n ==>", 0, cantidadNeutrales);
         for (int i = 0; i < cantidad ; i++) {
             planetaCustom(neutro);
         }
@@ -64,14 +75,15 @@ public class Mapa implements Agregar{
             nombrePlaneta = nombrePlaneta.substring(0, 10);
         }
         Planeta planetaGenerado = generarPlanetas(nombrePlaneta);
+        planetaGenerado.setPropietario(propietario);
         int cantidadDinero = validar("::Dinero inicial(Entre 100 y 1000)\n ==> ", 100, 1000);
+        planetaGenerado.setCantidadDineroInicial(cantidadDinero);
         int cantidadConstructores = validar("::Cantidad constructores(Entre 1 y 10 )\n ==>", 1, 10);
         planetaGenerado.constructoresIniciales(cantidadConstructores);
         int cantidadNaves = validar("::Cantidad naves(Entre 1 y 5)\n ==>", 1, 5);
         planetaGenerado.navesIniciales(cantidadNaves);
         int cantidadGuerreros = validar("::Cantidad guerreros(Entre 10 y 15) ==>", 10, 15);
         planetaGenerado.guerrerosIniciales(cantidadGuerreros);
-        planetaGenerado.setPropietario(propietario);
         propietario.agregarPlanetas(planetaGenerado, true);
         int x = planetaGenerado.getPosX();
         int y = planetaGenerado.getPosY();
@@ -80,6 +92,7 @@ public class Mapa implements Agregar{
 
     public void planetaDefecto(){
         Planeta planetaGenerado = generarPlanetas("");
+        planetaGenerado.setPropietario(neutro);
         int cantidadDinero = numerosAleatorios(100, 500);
         planetaGenerado.setCantidadDineroInicial(cantidadDinero);
         planetaGenerado.constructoresIniciales(1);
@@ -88,7 +101,6 @@ public class Mapa implements Agregar{
         planetaGenerado.generarGuerrerosTurnos();
         int x = planetaGenerado.getPosX();
         int y = planetaGenerado.getPosY();
-        planetaGenerado.setPropietario(neutro);
         neutro.agregarPlanetas(planetaGenerado, true);
         campoJuego[x][y] = planetaGenerado;
     }
@@ -98,8 +110,8 @@ public class Mapa implements Agregar{
         int probabilidadAparicion = numerosAleatorios(1, 100);
         int x, y;
         do{
-            x = numerosAleatorios(0, cantidadColumnas - 1);
-            y = numerosAleatorios(0, cantidadFilas -1);
+            y = numerosAleatorios(0, this.cantidadColumnas - 1);
+            x = numerosAleatorios(0, this.cantidadFilas -1);
             if(campoJuego[x][y] == null)
                 break;
         }while(true);
@@ -145,7 +157,7 @@ public class Mapa implements Agregar{
                     cantidadColumnas * cantidadColumnas < 10) {
                 System.out.println("Error:\n" +
                         "La diferencia entre filas y columnas no debe de ser mayor a 20\n"+
-                        "La cantidad de casillas totales no debe de ser mayor a 100" +
+                        "La cantidad de casillas totales no debe de ser mayor a 100\n" +
                         "La cantidad de casilla totales no debe de ser menor a 10");
                 cantidadFilas = pedirDato("Cantidad de filas\n ==> ");
                 cantidadColumnas = pedirDato("Cantidad de columnas\n ==> ");
@@ -189,22 +201,59 @@ public class Mapa implements Agregar{
         return campoJuego;
     }
 
+    public Jugador[] getJugadores() {
+        return jugadores;
+    }
+
     public void dibujar(){
-        for(Planeta planetas[] : campoJuego){
-            for (int i = 0; i < 4; i++) {
-                for (Planeta planeta : planetas) {
-                    if(planeta != null){
-                        switch (i){
-                            case 0: planeta.dibujar1(); break;
-                            case 1: planeta.dibujar2(); break;
-                            case 2: planeta.dibujar3(); break;
-                            case 3: planeta.dibujar4(); break;
+        int letras = 65;
+        System.out.print("   ");
+        for (int i = 1; i <=cantidadColumnas ; i++) {
+            char letra = (char)letras;
+            String l = Character.toString(letra);
+            System.out.print("   "+l+"      |");
+            letras++;
+
+        }
+        System.out.println("");
+        int k = 0;
+        for (int i = 0; i <cantidadFilas ; i++) {
+            k = 0;
+            while (k < 5){
+                for (int j = 0; j < cantidadColumnas; j++) {
+                    if(j ==0){
+                        if(k == 2){
+                            System.out.print((i+1)+" |");
+                        }
+                        else {
+                            System.out.print("  |");
                         }
                     }
-                    else {
-                        System.out.println("          ");
+                    Planeta planeta = campoJuego[i][j];
+                    if (planeta != null) {
+                        switch (k) {
+                            case 0:
+                                planeta.dibujar1();
+                                break;
+                            case 1:
+                                planeta.dibujar2();
+                                break;
+                            case 2:
+                                planeta.dibujar3();
+                                break;
+                            case 3:
+                                planeta.dibujar4();
+                                break;
+                            case 4:
+                                planeta.dibujar5();
+                                break;
+                        }
+                    } else {
+                        System.out.print("##########|");
                     }
                 }
+                System.out.println("");
+                k++;
             }
         }
     }

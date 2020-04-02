@@ -8,8 +8,8 @@ public class Jugador implements Agregar{
     private Mapa mapa;
     private int dinero = 0;
     private String nombre;
-    private Planeta planetas[];
-    private Cola cola[];
+    private Planeta planetas[] = new Planeta[0];
+    private Cola cola[] = new Cola[0];
     private String color;
 
     public Jugador(Mapa mapa, String nombre) {
@@ -19,6 +19,12 @@ public class Jugador implements Agregar{
 
     public Jugador(){
         this.nombre = "NEUTRO";
+    }
+
+    public void turnos(){
+        for (int i = 0; i < cola.length; i++) {
+            cola[i].ejecutar();
+        }
     }
 
     /**
@@ -81,5 +87,17 @@ public class Jugador implements Agregar{
 
     public Cola[] getCola() {
         return cola;
+    }
+
+    public int getCantidadPlanetas() {
+        return planetas.length;
+    }
+
+    @Override
+    public String toString() {
+        return "Jugador{" +
+                "dinero=" + dinero +
+                "\nnombre='" + nombre + '\'' +
+                '}';
     }
 }

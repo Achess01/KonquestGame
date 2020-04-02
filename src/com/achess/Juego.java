@@ -1,8 +1,10 @@
 package com.achess;
 
+import com.achess.planetas.Planeta;
+
 import java.util.Scanner;
 
-public class Juego implements Agregar{
+public class Juego implements Agregar, Comandos{
     public static final String COLORES[] = {"\u001B[0m", "\u001B[42m", "\u001B[44m", "\u001B[45m"};
     private Mapa mapas[] = new Mapa[0];
     private Mapa mapaEnJuego;
@@ -38,8 +40,37 @@ public class Juego implements Agregar{
             }
             boolean finalizar = false;
             int response = validar("::Elija el mapa\n ==> ", 1, mapas.length);
+            int turnos = 0;
+            Scanner sc = new Scanner(System.in);
+            sc.nextLine();
+            mapaEnJuego = mapas[response - 1];
+            Jugador jugadores[] = mapaEnJuego.getJugadores();
+            mapaEnJuego.dibujar();
             do{
-                mapas[response].dibujar();
+                System.out.println("::Turno jugador: "+ jugadores[turnos].getNombre());
+                String comando = sc.nextLine();
+                if(comando.equalsIgnoreCase("Fin")){
+                    mapaEnJuego.dibujar();
+                    turnos++;
+                    if(turnos == 2){
+                        mapaEnJuego.turnos();
+                        turnos = 0;
+                    }
+                    jugadores[turnos].turnos();
+                }
+                else{
+                    recibirComando(comando, mapaEnJuego, jugadores[turnos]);
+                }
+
+                if(jugadores[0].getCantidadPlanetas() == 0){
+                    System.out.println("::El ganador es: " + jugadores[1].getNombre());
+                    finalizar = true;
+                }
+                else if(jugadores[1].getCantidadPlanetas() == 0) {
+                    System.out.println("::El ganador es: " + jugadores[0].getNombre());
+                    finalizar = true;
+                }
+
             }while (!finalizar);
         }
         else{
@@ -59,7 +90,7 @@ public class Juego implements Agregar{
         Mapa m = new Mapa(cantidadFilas, cantidadColumnas, cantidadNeutrales, nombre, nombre2);
         m.planetasJugadores();
         m.planetasNeutrales();
-        agregarElementos(m, mapas,true);
+        mapas = agregarElementos(m, mapas,true);
     }
 
     private void editarMapas(){

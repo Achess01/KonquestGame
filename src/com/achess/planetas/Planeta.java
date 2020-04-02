@@ -18,7 +18,7 @@ public abstract class Planeta implements Agregar {
     protected int posX;
     protected int posY;
     protected float porcentajeMuerte;
-    protected int cantidadDineroInicial;
+    protected int cantidadDineroInicial = 0;
     protected Constructores constructores[][] = new Constructores[4][0];
     protected Constructores constructoresOcupados[][] = new Constructores[4][0];
     protected Naves navesDisponibles[][] = new Naves[4][0];
@@ -58,13 +58,13 @@ public abstract class Planeta implements Agregar {
         System.out.println(this + " VS. \n" + enemigo);
         while (true){
             if(!(enemigos.length > 0)){
-                System.out.println("::El planeta " + this.nombre + "de" +propietario.getNombre() +"ha sido defendido");
+                System.out.println("::El planeta " + this.nombre + " de " +propietario.getNombre() +" ha sido defendido");
                 break;
             }
             if(!(guerreros[indexGuerrero].length > 0)){
                 indexGuerrero++;
                 if(indexGuerrero > 4){
-                    System.out.println("::El planeta " + this.nombre + "de" +propietario.getNombre() +"ha caído");
+                    System.out.println("::El planeta " + this.nombre + " de " +propietario.getNombre() +" ha caído");
 
                     if(propietario.getNombre().equals("NEUTRO")){
                         enemigo.getPropietario().setDinero(enemigo.getPropietario().getDinero() + cantidadDineroInicial);
@@ -111,6 +111,11 @@ public abstract class Planeta implements Agregar {
         }
     }
     //Turnos
+
+    public void turnos(){
+        generarGuerrerosTurnos();
+        generarDineroTurnos();
+    }
     public void generarGuerrerosTurnos(){
         int cantidadGuerrerosGenerados = numerosAleatorios(minG, maxG);
         generarGuerreros(cantidadGuerrerosGenerados);
@@ -118,9 +123,7 @@ public abstract class Planeta implements Agregar {
 
     private void generarDineroTurnos(){
         int cantidadDineroGenerado = numerosAleatorios(minD, maxD);
-        if(!propietario.getNombre().equals("NEUTRO")){
             propietario.setDinero(propietario.getDinero() + cantidadDineroGenerado);
-        }
     }
 
     //
@@ -144,7 +147,7 @@ public abstract class Planeta implements Agregar {
                     for(int x = 0; x < cantidad; x++){
                         guerrerosElegidos[x] = guerreros[indexGuerrero][x];
                     }
-                    naveElegida = navesDisponibles[indexGuerrero][0];
+                    naveElegida = navesDisponibles[indexNave][0];
                     if(naveElegida.cargarGuerreros(cantidad,guerrerosElegidos)){
                         for(int x = 0; x < cantidad; x++){
                             agregarGuerreros(guerreros[indexGuerrero][0],indexGuerrero,false);
@@ -154,6 +157,7 @@ public abstract class Planeta implements Agregar {
                         float d = this.propietario.medirDistancias(this, destino);
                         int turnosNecesarios = (int)Math.ceil(d/naveElegida.getVelocidad());
                         Cola cola = new FlotaEnviada(turnosNecesarios, destino,naveElegida);
+                        this.propietario.agregarCola(cola, true);
                     }
                     else{
                         System.out.println("Acción no completada");
@@ -246,10 +250,9 @@ public abstract class Planeta implements Agregar {
     }
 
     public void setCantidadDineroInicial(int cantidadDinero) {
-        this.cantidadDineroInicial = cantidadDinero;
-        if(!propietario.getNombre().equals("NEUTRO")){
-            propietario.setDinero(propietario.getDinero() + cantidadDinero);
-        }
+        this.cantidadDineroInicial = cantidadDinero;//
+        this.propietario.setDinero(propietario.getDinero() + cantidadDinero);
+    //
     }
 
     public void setPropietario(Jugador propietario) {
@@ -283,33 +286,36 @@ public abstract class Planeta implements Agregar {
 
 
     public void dibujar1(){
-        System.out.println(this.propietario.getColor()+"          "+Juego.COLORES[0]);
+        System.out.print(this.propietario.getColor()+"          "+Juego.COLORES[0] +"|");
     }
     public void dibujar2(){
         String espacios = "";
-        for (int i = 0; i < nombre.length() - 10 ; i++) {
-            espacios.concat(" ");
+        for (int i = 0; i < 10 - this.nombre.length() ; i++) {
+            espacios +=  " ";
         }
-        System.out.println(this.propietario.getColor()+nombre+espacios+Juego.COLORES[0]);
+        System.out.print(this.propietario.getColor()+nombre+espacios+Juego.COLORES[0]+"|");
     }
     public void dibujar3(){
-        System.out.println(this.propietario.getColor()+"Dueño:    "+Juego.COLORES[0]);
+        System.out.print(this.propietario.getColor()+"Dueño:    "+Juego.COLORES[0]+"|");
     }
     public void dibujar4(){
         String p = this.propietario.getNombre();
-        String n = nombre;
         String espacios = "";
         if(p.length() >= 10){
             p = p.substring(10);
         }
         else{
-            for (int i = 0; i < p.length() - 10 ; i++) {
-                p.concat(" ");
+            for (int i = 0; i < 10 - p.length() ; i++) {
+                espacios +=  " ";
             }
         }
 
-        System.out.println(this.propietario.getColor()+p+Juego.COLORES[0]);
+        System.out.print(this.propietario.getColor()+p+espacios+Juego.COLORES[0] + "|");
 
+    }
+
+    public void dibujar5(){
+        System.out.print("----------|");
     }
 
     @Override

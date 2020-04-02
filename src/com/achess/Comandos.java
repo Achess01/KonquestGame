@@ -3,7 +3,7 @@ package com.achess;
 import com.achess.cola.Cola;
 import com.achess.cola.FlotaEnviada;
 import com.achess.cola.NaveConstruida;
-import com.achess.constructores.Constructores;
+import com.achess.constructores.*;
 import com.achess.guerreros.Guerreros;
 import com.achess.naves.Naves;
 import com.achess.planetas.Planeta;
@@ -41,13 +41,16 @@ public interface Comandos {
     private void comandosUnaPalabra(String comando[], Jugador turno, Mapa mapa){
         Planeta planeta = esPropietario(turno, comando[0], mapa);
             if(planeta != null){
-                System.out.println(planeta);
+                turno.verPlanetas(planeta);
             }
             else if(comando[0].equalsIgnoreCase("Flota")){
+                System.out.println(turno);
                Cola cola[] = turno.getCola();
                for(Cola c : cola){
                    if(c instanceof FlotaEnviada){
-                       System.out.println(c);
+                       if(!(c.getTurnosNecesarios() <=0)) {
+                           System.out.println(c);
+                       }
                    }
                }
             }
@@ -121,8 +124,16 @@ public interface Comandos {
             int diferencia = turno.getDinero() - total;
             if(diferencia > 0){
                 turno.setDinero(diferencia);
-                System.out.println("::Compra de: " + cantidad + "constructores: " + Constructores.NOMBRE[indexConstructor]);
+                System.out.println("::Compra de: " + cantidad + " constructores: " + Constructores.NOMBRE[indexConstructor]);
                 System.out.println("::Dinero actual: " + turno.getDinero());
+                Constructores ctor = new Obrero(indexConstructor,planeta);
+                switch (indexConstructor){
+                    case 0: ctor = new Obrero(indexConstructor, planeta); break;
+                    case 1: ctor = new MaestroDeObra(indexConstructor, planeta); break;
+                    case 2: ctor = new Arquitecto(indexConstructor, planeta); break;
+                    case 3: ctor = new Ingeniero(indexConstructor, planeta); break;
+                }
+                planeta.agregarConstructores(ctor, indexConstructor, true);
             }
             else{
                 System.out.println("::Dinero insuficiente");
