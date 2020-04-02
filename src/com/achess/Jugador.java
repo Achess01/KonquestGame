@@ -79,11 +79,7 @@ public class Jugador implements Agregar{
         this.color = color;
     }
 
-    public boolean existePlaneta(Planeta buscado){
-        for(Planeta p :planetas){
-            if(p.equals(buscado))
-                return true;
-        }
-        return false;
+    public Cola[] getCola() {
+        return cola;
     }
 }

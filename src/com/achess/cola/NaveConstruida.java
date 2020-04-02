@@ -12,10 +12,12 @@ public class NaveConstruida extends Cola{
     }
 
     @Override
-    public void ejecutar(int turnoActual) {
-        int diferencia = turnosNecesarios - turnoActual;
-        if(diferencia == 0){
+    public void ejecutar() {
+        turnosNecesarios--;
+        if(turnosNecesarios == 0){
             constructor.fabricarNave();
+            constructor.getPlaneta().agregarConstructoresOcupados(constructor, constructor.getIndexConstructor(), false);
+            constructor.getPlaneta().agregarConstructores(constructor, constructor.getIndexConstructor(), true);
         }
     }
 }

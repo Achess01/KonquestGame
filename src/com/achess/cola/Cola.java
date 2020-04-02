@@ -12,5 +12,5 @@ public abstract class Cola {
         this.id = ++cantidadColas;
     }
 
-    public abstract void ejecutar(int turnoActual);
+    public abstract void ejecutar();
 }

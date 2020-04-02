@@ -12,6 +12,7 @@ public abstract class Constructores {
     protected int precioCompra;
     protected int precioVenta;
     protected Planeta planeta;
+    protected int indexConstructor;
 
     public Constructores(int indexConstructor, Planeta planeta) {
         this.id = ++cantidadConstructores;
@@ -19,6 +20,7 @@ public abstract class Constructores {
         this.precioCompra = PRECIO_C[indexConstructor];
         this.precioVenta = PRECIO_V[indexConstructor];
         this.planeta = planeta;
+        this.indexConstructor = indexConstructor;
     }
 
     public abstract void fabricarNave();
@@ -28,4 +30,7 @@ public abstract class Constructores {
         return planeta;
     }
 
+    public int getIndexConstructor() {
+        return indexConstructor;
+    }
 }

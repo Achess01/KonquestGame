@@ -13,7 +13,7 @@ public class FlotaEnviada extends Cola{
     }
 
     @Override
-    public void ejecutar(int turnoActual) {
+    public void ejecutar() {
         turnosNecesarios--;
         if(turnosNecesarios == 0){
             nave.batalla(destino);

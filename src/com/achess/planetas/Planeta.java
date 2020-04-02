@@ -17,6 +17,7 @@ public abstract class Planeta implements Agregar {
     protected float porcentajeMuerte;
     protected int cantidadDineroInicial;
     protected Constructores constructores[][] = new Constructores[4][0];
+    protected Constructores constructoresOcupados[][] = new Constructores[4][0];
     protected Naves navesDisponibles[][] = new Naves[4][0];
     protected Naves navesOcupadas[][] = new Naves[4][0];
     protected Guerreros guerreros[][] = new Guerreros[5][0];
@@ -189,6 +190,10 @@ public abstract class Planeta implements Agregar {
         constructores[indexConstructor] = agregarElementos(constructor, constructores[indexConstructor], validar);
     }
 
+    public void agregarConstructoresOcupados(Constructores constructor, int indexConstructor, boolean validar){
+        constructoresOcupados[indexConstructor] = agregarElementos(constructor, constructoresOcupados[indexConstructor], validar);
+    }
+
     /**
      * Agrega un guerrero a la matriz de guerreros.
      * @param guerrero
@@ -249,12 +254,25 @@ public abstract class Planeta implements Agregar {
         return navesOcupadas;
     }
 
-    public Naves[][] getNavesDisponibles() {
-        return navesDisponibles;
+    public Naves getNavesDisponibles(int indexNave) {
+        if(navesDisponibles[indexNave].length > 0){
+            return navesDisponibles[indexNave][0];
+        }
+        return null;
     }
 
-    public Constructores[][] getConstructores() {
-        return constructores;
+    public Constructores getConstructores(int indexConstructor) {
+        if(constructores[indexConstructor].length > 0){
+            return constructores[indexConstructor][0];
+        }
+        return null;
+    }
+
+    public Constructores construirNave(int indexConstructor){
+        Constructores c = constructores[indexConstructor][0];
+        agregarConstructores(c, indexConstructor, false);
+        agregarConstructoresOcupados(c, indexConstructor, true);
+        return c;
     }
 
     @Override
