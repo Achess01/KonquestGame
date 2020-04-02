@@ -3,6 +3,8 @@ import com.achess.Jugador;
 import com.achess.guerreros.*;
 import com.achess.planetas.Planeta;
 
+import java.util.Arrays;
+
 public abstract class Naves {
     public static final int CAPACIDAD[] ={25, 42, 58, 80};
     public static final int PRECIO[] = {40, 50, 70, 100};
@@ -70,5 +72,16 @@ public abstract class Naves {
         }
 
     }
+    public int getIndexNave() {
+        return indexNave;
+    }
 
+    @Override
+    public String toString() {
+        return "Naves{" +
+                "nombre= '" + nombre + '\'' +
+                "\nguerreros= " + guerreros.length +
+                "\nplanetaOrigen= " + planetaOrigen +
+                '}';
+    }
 }

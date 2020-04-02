@@ -14,11 +14,18 @@ public class FlotaEnviada extends Cola{
 
     @Override
     public void ejecutar(int turnoActual) {
-        int diferencia = turnosNecesarios - turnoActual;
-        if(diferencia == 0){
+        turnosNecesarios--;
+        if(turnosNecesarios == 0){
             nave.batalla(destino);
         }
     }
 
-
+    @Override
+    public String toString() {
+        return "FlotaEnviada{" +
+                "nave=" + nave +
+                "\ndestino=" + destino +
+                "\nTurnos restantes=" + turnosNecesarios +
+                '}';
+    }
 }

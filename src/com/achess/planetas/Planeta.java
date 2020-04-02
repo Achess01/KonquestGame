@@ -171,6 +171,12 @@ public abstract class Planeta implements Agregar {
         navesDisponibles[indexNave] = agregarElementos(nave,navesDisponibles[indexNave], validar);
     }
 
+    /**
+     * Agrega naves a las naves ocupadas. Se hace en caso de que una nave haya sido enviada a un planeta.
+     * @param nave
+     * @param indexNave
+     * @param validar
+     */
     public void agregarNavesOcupadas(Naves nave, int indexNave, boolean validar){
         navesOcupadas[indexNave] = agregarElementos(nave,navesOcupadas[indexNave], validar);
     }
@@ -243,6 +249,14 @@ public abstract class Planeta implements Agregar {
         return navesOcupadas;
     }
 
+    public Naves[][] getNavesDisponibles() {
+        return navesDisponibles;
+    }
+
+    public Constructores[][] getConstructores() {
+        return constructores;
+    }
+
     @Override
     public String toString() {
         int cantidadGuerreros = 0;
@@ -251,10 +265,10 @@ public abstract class Planeta implements Agregar {
         }
         return "Planeta{" +
                 "tipo='" + tipo + '\'' +
-                ", nombre='" + nombre + '\'' +
-                ", porcentajeMuerte=" + porcentajeMuerte +
-                ", guerreros=" + cantidadGuerreros +
-                ", propietario=" + propietario.getNombre() +
+                "\nnombre='" + nombre + '\'' +
+                "\nporcentajeMuerte=" + porcentajeMuerte +
+                "\nguerreros=" + cantidadGuerreros +
+                "\npropietario=" + propietario.getNombre() +
                 '}';
     }
 }

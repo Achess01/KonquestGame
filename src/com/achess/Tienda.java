@@ -1,52 +1,94 @@
 package com.achess;
 
 import com.achess.constructores.*;
+import com.achess.naves.Naves;
 import com.achess.planetas.Planeta;
 
 import java.util.Scanner;
 
 public class Tienda{
-    public static void menu(Planeta planeta){
-        int response;
-        do{
-            System.out.println("::Tienda");
-            System.out.println("1. Comprar");
-            System.out.println("2. Vender");
-            System.out.println("0 .Salir");
-            response = pedirDato("==> ");
-            switch (response){
-                case 1:
-                    comprar(planeta);
-                    break;
-                case 2:
-                    break;
-            }
-        }while(response != 0);
+
+    public static void info(){
+        System.out.println("::Comprar");
+        System.out.println("::Constructores");
+        System.out.println("1. Obrero - precio: " + Constructores.PRECIO_C[0] + " galactus");
+        System.out.println("2. Maestro de obra - precio: " + Constructores.PRECIO_C[1] + " galactus");
+        System.out.println("3. Arquitecto - precio: " + Constructores.PRECIO_C[2] + " galactus");
+        System.out.println("4. Ingeniero - precio: " + Constructores.PRECIO_C[3] + " galactus");
     }
 
-    public static void comprar(Planeta planeta){
-        int response;
-        int cantidad;
-        do {
-            System.out.println("::Comprar");
-            System.out.println("::Constructores");
-            System.out.println("1. Obrero - precio: " + Constructores.PRECIO_C[0] + " galactus");
-            System.out.println("2. Maestro de obra - precio: " + Constructores.PRECIO_C[1] + " galactus");
-            System.out.println("3. Arquitecto - precio: " + Constructores.PRECIO_C[2] + " galactus");
-            System.out.println("4. Ingeniero - precio: " + Constructores.PRECIO_C[3] + " galactus");
-            System.out.println("0. Salir");
-            response = pedirDato("==> ");
+    public static void venderNave(Planeta planeta, String tipo){
+        int indexNave = -1;
+        switch (tipo){
+            case "NABOO N-1": indexNave = 0; break;
+            case "X-WING": indexNave = 1; break;
+            case "MILLENIAL FALCON": indexNave = 2; break;
+            case "STAR DESTROYER": indexNave = 3; break;
+            default: indexNave = -1;
+        }
+        if(indexNave > 0) {
+            Naves naves[][] = planeta.getNavesDisponibles();
+            if(naves[indexNave].length > 0){
+                planeta.agregarNaves(naves[indexNave][0], indexNave, false);
+                planeta.getPropietario().setDinero(planeta.getPropietario().getDinero() + Naves.PRECIO[indexNave]);
+            }
+            else {
+                System.out.println("::Nave no existente en su inventario");
+            }
+        }
+        else{
+            System.out.println("Tipo de nave no existente");
+        }
+
+    }
+
+    public static void venderConstrutor(Planeta planeta, String tipo){
+        int response = -1;
+        switch (tipo){
+            case "OBRERO": response = 1; break;
+            case "MAESTRO DE OBRA": response = 2; break;
+            case "ARQUITECTO": response = 3; break;
+            case "INGENIERO": response = 4; break;
+        }
+        if(response > 0) {
+            Constructores constructores[][] = planeta.getConstructores();
+            if(constructores[response].length > 0){
+                planeta.agregarConstructores(constructores[response][0], response, false);
+                planeta.getPropietario().setDinero(planeta.getPropietario().getDinero() + Constructores.PRECIO_V[response]);
+            }
+            else {
+                System.out.println("::Constructor no existente en su inventario");
+            }
+        }
+        else{
+            System.out.println("Tipo de constructor no existente");
+        }
+
+    }
+
+    public static void venderConstructor(Planeta planeta){
+
+    }
+
+    public static void comprar(Planeta planeta, int cantidad, String tipo){
+        int response = 0;
+        switch (tipo){
+            case "OBRERO": response = 1; break;
+            case "MAESTRO DE OBRA": response = 2; break;
+            case "ARQUITECTO": response = 3; break;
+            case "INGENIERO": response = 4; break;
+        }
             int index = response - 1;
             if(response >0 && response < 5) {
-                System.out.println("::Cantidad");
-                cantidad = pedirDato("==> ");
-                cantidad = Math.abs(cantidad);
                 int precioT = Constructores.PRECIO_C[response - 1] * cantidad;
-                int diferencia = precioT - planeta.getPropietario().getDinero();
-                if (diferencia > 0) {
+                int diferencia = planeta.getPropietario().getDinero() - precioT;
+                if (diferencia < 0) {
                     System.out.println("Dinero insuficiente");
                     System.out.println("Le hacen falta " + diferencia + " galactus");
                     response = 0;
+                }
+                else{
+                    planeta.getPropietario().setDinero(diferencia);
                 }
 
                 switch (response) {
@@ -74,33 +116,14 @@ public class Tienda{
                         }
                         System.out.println("Compra exitosa");
                         break;
+                    default:
+                        System.out.println("::Compra NO efectuada");
                 }
+                System.out.println("::Dinero actual: " + planeta.getPropietario().getDinero());
             }
-        }while(response != 0);
-    }
-    private static int pedirDato(String mensaje){
-        int numero;
-        while (true) {
-            try {
-                System.out.print(mensaje);
-                Scanner sc = new Scanner(System.in);
-                numero = Integer.parseInt(sc.nextLine());
-                break;
-            } catch (Exception ex) {
-                System.out.println("Valor no válido");
+            else{
+                System.out.println("::Tipo de nave incorrecta");
             }
-        }
-        return numero;
-    }
 
-    private static int validar(String mensaje, int min, int max){
-        int dato;
-        while(true){
-            dato = pedirDato(mensaje);
-            if(dato > min && dato < max){
-                break;
-            }
-        }
-        return dato;
     }
 }

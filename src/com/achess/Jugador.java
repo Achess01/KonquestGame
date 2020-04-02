@@ -10,6 +10,7 @@ public class Jugador implements Agregar{
     private String nombre;
     private Planeta planetas[];
     private Cola cola[];
+    private String color;
 
     public Jugador(Mapa mapa, String nombre) {
         this.mapa = mapa;
@@ -68,5 +69,13 @@ public class Jugador implements Agregar{
 
     public void setDinero(int dinero) {
         this.dinero = dinero;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
     }
 }

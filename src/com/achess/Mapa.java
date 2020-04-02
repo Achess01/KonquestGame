@@ -28,7 +28,10 @@ public class Mapa implements Agregar{
             j2 = "02".concat(j2);
         }
         jugadores[0] = new Jugador(this, j1);
+        jugadores[0].setColor(Juego.COLORES[1]);
         jugadores[1] = new Jugador(this, j2);
+        jugadores[1].setColor(Juego.COLORES[2]);
+        neutro.setColor(Juego.COLORES[3]);
         campoJuego = new Planeta[this.cantidadFilas][this.cantidadColumnas];
     }
 
