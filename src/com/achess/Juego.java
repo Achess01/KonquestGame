@@ -1,7 +1,6 @@
 package com.achess;
 
 import java.util.Scanner;
-import static com.achess.Tienda.*;
 
 public class Juego implements Agregar{
     public static final String COLORES[] = {"\u001B[0m", "\u001B[42m", "\u001B[44m", "\u001B[45m"};

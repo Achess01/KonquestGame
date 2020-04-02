@@ -27,7 +27,11 @@ public interface Comandos {
             }
             int palabras = accion.length;
             switch (palabras){
-
+                case 1: comandosUnaPalabra(accion, turno, mapa); break;
+                case 2: comandosDosPalabras(accion, turno, mapa); break;
+                case 3: comandosTresPalabras(accion, turno, mapa); break;
+                case 4: comandosCuatroPalabras(accion, turno, mapa); break;
+                case 5: comandosCincoPalabras(accion, turno, mapa); break;
             }
         } else {
             System.out.println("::Error");
@@ -108,7 +112,7 @@ public interface Comandos {
             }
     }
 
-    private void comandosCuatroPalbras(String comando[], Jugador turno, Mapa mapa){
+    private void comandosCuatroPalabras(String comando[], Jugador turno, Mapa mapa){
         Planeta planeta = esPropietario(turno, comando[0], mapa);
         int cantidad = esUnNumero(comando[2]);
         int indexConstructor = esUnConstructor(comando[3]);
@@ -136,7 +140,7 @@ public interface Comandos {
         int indexNave = esUnaNave(comando[3]);
         Planeta p2 = esUnPlaneta(comando[4], mapa);
         if(p1 != null && cantidad > 0 && indexGuerrero >= 0 && indexNave >= 0 && p2 != null){
-
+            p1.enviarGuerreros(cantidad, indexGuerrero, indexNave, p2);
         }
 
     }

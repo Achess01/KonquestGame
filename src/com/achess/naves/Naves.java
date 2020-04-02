@@ -76,6 +76,10 @@ public abstract class Naves {
         return indexNave;
     }
 
+    public float getVelocidad() {
+        return velocidad;
+    }
+
     @Override
     public String toString() {
         return "Naves{" +

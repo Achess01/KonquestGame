@@ -2,6 +2,8 @@ package com.achess.planetas;
 
 import com.achess.Agregar;
 import com.achess.Jugador;
+import com.achess.cola.Cola;
+import com.achess.cola.FlotaEnviada;
 import com.achess.constructores.*;
 import com.achess.guerreros.*;
 import com.achess.naves.*;
@@ -131,7 +133,7 @@ public abstract class Planeta implements Agregar {
      * @param indexGuerrero
      * @param indexNave
      */
-    protected void enviarGuerreros(int cantidad, int indexGuerrero, int indexNave){
+    public void enviarGuerreros(int cantidad, int indexGuerrero, int indexNave, Planeta destino){
             Naves naveElegida;
             Guerreros guerrerosElegidos[];
             if(navesDisponibles[indexNave].length > 0){ //Verifica si el planeta tiene esa nave.
@@ -148,6 +150,9 @@ public abstract class Planeta implements Agregar {
                         }
                         agregarNavesOcupadas(naveElegida,indexNave, true);
                         agregarNaves(naveElegida,indexNave, false);
+                        float d = this.propietario.medirDistancias(this, destino);
+                        int turnosNecesarios = (int)Math.ceil(d/naveElegida.getVelocidad());
+                        Cola cola = new FlotaEnviada(turnosNecesarios, destino,naveElegida);
                     }
                     else{
                         System.out.println("Acción no completada");
