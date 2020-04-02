@@ -78,4 +78,12 @@ public class Jugador implements Agregar{
     public void setColor(String color) {
         this.color = color;
     }
+
+    public boolean existePlaneta(Planeta buscado){
+        for(Planeta p :planetas){
+            if(p.equals(buscado))
+                return true;
+        }
+        return false;
+    }
 }

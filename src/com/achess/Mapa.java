@@ -184,4 +184,8 @@ public class Mapa implements Agregar{
             }
         }
     }
+
+    public Planeta[][] getCampoJuego() {
+        return campoJuego;
+    }
 }
