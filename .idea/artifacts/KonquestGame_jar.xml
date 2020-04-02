@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="KonquestGame:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/KonquestGame_jar</output-path>
+    <root id="archive" name="KonquestGame.jar">
+      <element id="module-output" name="KonquestGame" />
+    </root>
+  </artifact>
+</component>
