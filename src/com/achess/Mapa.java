@@ -188,4 +188,32 @@ public class Mapa implements Agregar{
     public Planeta[][] getCampoJuego() {
         return campoJuego;
     }
+
+    public void dibujar(){
+        for(Planeta planetas[] : campoJuego){
+            for (int i = 0; i < 4; i++) {
+                for (Planeta planeta : planetas) {
+                    if(planeta != null){
+                        switch (i){
+                            case 0: planeta.dibujar1(); break;
+                            case 1: planeta.dibujar2(); break;
+                            case 2: planeta.dibujar3(); break;
+                            case 3: planeta.dibujar4(); break;
+                        }
+                    }
+                    else {
+                        System.out.println("          ");
+                    }
+                }
+            }
+        }
+    }
+    @Override
+    public String toString() {
+        return "Mapa{" +
+                "cantidadFilas=" + cantidadFilas +
+                "\ncantidadColumnas=" + cantidadColumnas +
+                "\ncantidadNeutrales=" + cantidadNeutrales +
+                '}';
+    }
 }

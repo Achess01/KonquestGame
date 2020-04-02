@@ -1,6 +1,7 @@
 package com.achess.planetas;
 
 import com.achess.Agregar;
+import com.achess.Juego;
 import com.achess.Jugador;
 import com.achess.cola.Cola;
 import com.achess.cola.FlotaEnviada;
@@ -278,6 +279,37 @@ public abstract class Planeta implements Agregar {
         agregarConstructores(c, indexConstructor, false);
         agregarConstructoresOcupados(c, indexConstructor, true);
         return c;
+    }
+
+
+    public void dibujar1(){
+        System.out.println(this.propietario.getColor()+"          "+Juego.COLORES[0]);
+    }
+    public void dibujar2(){
+        String espacios = "";
+        for (int i = 0; i < nombre.length() - 10 ; i++) {
+            espacios.concat(" ");
+        }
+        System.out.println(this.propietario.getColor()+nombre+espacios+Juego.COLORES[0]);
+    }
+    public void dibujar3(){
+        System.out.println(this.propietario.getColor()+"Dueño:    "+Juego.COLORES[0]);
+    }
+    public void dibujar4(){
+        String p = this.propietario.getNombre();
+        String n = nombre;
+        String espacios = "";
+        if(p.length() >= 10){
+            p = p.substring(10);
+        }
+        else{
+            for (int i = 0; i < p.length() - 10 ; i++) {
+                p.concat(" ");
+            }
+        }
+
+        System.out.println(this.propietario.getColor()+p+Juego.COLORES[0]);
+
     }
 
     @Override

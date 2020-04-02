@@ -30,6 +30,21 @@ public class Juego implements Agregar{
     }
 
     private void juego() {
+        if(mapas.length > 0){
+            int i = 1;
+            for (Mapa m : mapas) {
+                System.out.println(i + ".\n" + m);
+                i++;
+            }
+            boolean finalizar = false;
+            int response = validar("::Elija el mapa\n ==> ", 1, mapas.length);
+            do{
+                mapas[response].dibujar();
+            }while (!finalizar);
+        }
+        else{
+            System.out.println("::Cree un mapa para poder jugar");
+        }
     }
 
 
