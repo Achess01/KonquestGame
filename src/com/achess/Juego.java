@@ -112,10 +112,10 @@ public class Juego implements Agregar, Comandos{
                 response = pedirDato("==> ");
                 switch (response) {
                     case 1:
-                        mapas[index].planetasJugadores();
+                        mapas[index - 1].planetasJugadores();
                         break;
                     case 2:
-                        mapas[index].planetasNeutrales();
+                        mapas[index - 1].planetasNeutrales();
                         break;
 
                 }
